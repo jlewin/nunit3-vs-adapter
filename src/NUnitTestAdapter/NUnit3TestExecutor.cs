@@ -72,7 +72,10 @@ namespace NUnit.VisualStudio.TestAdapter
 
                     TestLog.SendInformationalMessage("Running all tests in " + assemblyName);
 
-                    RunAssembly(assemblyName, frameworkHandle);
+                    using (var context = new Core.DirectorySwapper(Path.GetDirectoryName(assemblyName)))
+                    {
+                        RunAssembly(assemblyName, frameworkHandle);
+                    }
                 }
             }
             catch (Exception ex)
@@ -118,7 +121,10 @@ namespace NUnit.VisualStudio.TestAdapter
 
                 _nunitFilter = MakeTestFilter(assemblyGroup);
 
-                RunAssembly(assemblyName, frameworkHandle);
+                using (var context = new Core.DirectorySwapper(Path.GetDirectoryName(assemblyName)))
+                {
+                    RunAssembly(assemblyName, frameworkHandle);
+                }
             }
 
             Info("executing tests", "finished");
