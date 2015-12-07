@@ -103,6 +103,12 @@ namespace NUnit.VisualStudio.TestAdapter
 #endif
             Initialize(frameworkHandle);
 
+            var firstTest = tests.FirstOrDefault();
+            if(firstTest != null)
+            {
+                Environment.CurrentDirectory = Path.GetDirectoryName(firstTest.Source);
+            }
+
             var enableShutdown = (UseVsKeepEngineRunning) ? !runContext.KeepAlive : true;
             frameworkHandle.EnableShutdownAfterTestRun = enableShutdown;
             Debug("executing tests", "EnableShutdown set to " + enableShutdown);
